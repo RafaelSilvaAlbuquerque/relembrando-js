@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ordenando dados</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+
+<h3>Questão 1: Bilheteria por Filme</h3>
+
+<div id="chart1"></div>
+
+<script type="text/javascript">
+    function render1(data, comparator1) {
+        d3.select("#chart1").selectAll("div.h-bar")
+                .data(data)
+            .enter().append("div")
+            .attr("class", "h-bar")
+            .append("span");
+        
+        d3.select("#chart1").selectAll("div.h-bar")
+                .data(data)
+            .attr("class", "h-bar")
+            .style("width", function (d) {
+                return (d.Worldwide_Gross_M * (1/2)) + "px";
+            })
+            .style("background-color", function(){
+                    return "#808080";})
+            .select("span")
+                .text(function (d) {
+                    return d.Film;
+                });
+	if(comparator1)
+            d3.select("#chart1")
+                .selectAll("div.h-bar") 
+                .sort(comparator1);
+         
+    }
+
+    var compareBilheteria = function (a, b) { 
+        return a.Worldwide_Gross_M > b.Worldwide_Gross_M?-1:1;
+    };
+    var compareNomeFilme = function (a, b) { 
+        return a.Film > b.Film?-1:1;
+    };
+    
+    d3.json("movies.json", function(error, json){ 
+        render1(json, compareBilheteria);
+    });
+</script>
+
+<h3>Questão 2: Orçamento por Filme</h3>
+
+<div id="chart2"></div>
+
+<script type="text/javascript">
+    function render2(data, comparator2) {
+        d3.select("#chart2").selectAll("div.h-bar")
+                .data(data)
+            .enter().append("div")
+            .attr("class", "h-bar")
+            .append("span");
+        
+        d3.select("#chart2").selectAll("div.h-bar")
+                .data(data)
+            .attr("class", "h-bar")
+            .style("width", function (d) {
+                return (d.Budget_M * 3) + "px";
+            })
+	    .style("background-color", function(){
+                    return "#008000";})
+            .select("span")
+                .text(function (d) {
+                    return d.Film;
+                });
+	if(comparator2)
+            d3.select("#chart2")
+                .selectAll("div.h-bar") 
+                .sort(comparator2);
+         
+    }
+
+    var compareOrcamento = function (a, b) { 
+        return a.Budget_M > b.Budget_M?-1:1;
+    };
+    var compareNomeFilme = function (a, b) { 
+        return a.Film > b.Film?-1:1;
+    };
+    
+    d3.json("movies.json", function(error, json){ 
+        render2(json, compareOrcamento);
+    });
+</script>
+
+<h3>Questão 3: Lucro por Filme</h3>
+
+<div id="chart3"></div>
+
+<script type="text/javascript">
+    function render3(data, comparator3) {
+        d3.select("#chart3").selectAll("div.h-bar")
+                .data(data)
+            .enter().append("div")
+            .attr("class", "h-bar")
+            .append("span");
+        
+        d3.select("#chart3").selectAll("div.h-bar")
+                .data(data)
+            .attr("class", "h-bar")
+            .style("width", function (d) {
+                return ((d.Worldwide_Gross_M - d.Budget_M) * (1/2)) + "px";
+            })
+	    .style("background-color", function(){
+                    return "#A52A2A";})
+            .select("span")
+                .text(function (d) {
+                    return d.Film;
+                });
+	if(comparator3)
+            d3.select("#chart3")
+                .selectAll("div.h-bar") 
+                .sort(comparator3);
+         
+    }
+
+    var compareProfit = function (a, b) { 
+        return (a.Worldwide_Gross_M - a.Budget_M) > (b.Worldwide_Gross_M - b.Budget_M)?-1:1;
+    };
+    var compareNomeFilme = function (a, b) { 
+        return a.Film > b.Film?-1:1;
+    };
+    
+    d3.json("movies.json", function(error, json){ 
+        render3(json, compareProfit);
+    });
+</script>
+
+<h3>Questão 4: Bilheteria por Genero</h3>
+
+<div id="chart4"></div>
+
+<script type="text/javascript">
+
+
+    function render4(data,comparator4) {
+
+        d3.select("#chart4").selectAll("div.h-bar")
+                .data(data)
+            .enter().append("div")
+            .attr("class", "h-bar")
+            .append("span");
+
+	d3.select("#chart4").selectAll("div.h-bar")
+                .data(data)
+            .attr("class", "h-bar")
+            .style("width", function (data) {
+                return (data[1] * (1/9)) + "px";
+            })
+	    .style("background-color", function(){
+                    return "#DAA520";})
+            .select("span")
+                .text(function (data) {
+                    return data[0];
+                });
+        if(comparator4)
+            d3.select("#chart4")
+                .selectAll("div.h-bar") 
+                .sort(comparator4);
+	    
+        
+        
+         
+    }
+
+    var compareTrofit = function (a, b) { 
+        return a[1] > b[1]?-1:1;
+    };
+    var compareNomeFilme = function (a, b) { 
+        return a.Film > b.Film?-1:1;
+    };
+    
+    d3.json("movies.json", function(error, json){
+
+	var Genres = [];
+	var aux = 0;
+	var count = 0;
+	var aux2 = 0;
+
+	for(var i=0;i < json.length;i++){
+		if(Genres.length == 0){
+			Genres.push([json[0].Genre,json[0].Worldwide_Gross_M]);
+			count = count+1;
+		}
+		else{
+			aux = 0;
+			for(var j=0;j < Genres.length;j++){
+				if(json[i].Genre == Genres[j][0]){
+					aux2 = Genres[j][1] + json[i].Worldwide_Gross_M;
+					Genres[j][1] = aux2;
+					aux = 1;
+				}
+			}
+			if(aux == 0){
+				Genres.push([json[i].Genre,json[i].Worldwide_Gross_M]);
+				count = count+1;
+			}
+		}
+	}
+
+    	render4(Genres,compareTrofit);
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

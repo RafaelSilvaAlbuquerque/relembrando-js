@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Criminalidade em Chicago</title>
+             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+            <!-- Optional theme -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+            
+
+            <!-- Custom styles for this template -->
+            <link  rel="stylesheet" href="css/starter-template.css">
+            <link rel="stylesheet" href="css/dc.css">
+            <link rel="stylesheet" href="css/styles.css">
+            <script src="js/crossfilter.js" charset="utf-8"></script>
+            <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            <script src="js/dc.js" charset="utf-8"></script>
+
+
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+            integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+            crossorigin=""/>
+
+            <!-- Make sure you put this AFTER Leaflet's CSS -->
+            <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+            crossorigin=""></script>
+
+            
+            <style type="text/css">
+  
+              
+            </style>
+        </head>
+        <body>
+            <div class='container-fluid'>
+                <h1> Criminalidade em Chicago </h1>
+                <div id="mapid"></div>
+                <div id='magnitude-chart'>
+                  <br><br>
+                </div>
+                <div id='depth-chart'>
+                </div>   
+                <div>
+                    <div id='time-chart'>
+                    </div>
+                </div>
+
+                <table class="table table-hover" id="dc-table-graph">
+                    <thead>
+                        <tr class="header">
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <script type="text/javascript">
+
+            var crimeTypeChart = dc.barChart("#magnitude-chart");
+            
+            var timeChart = dc.seriesChart("#depth-chart");
+
+
+            let colorScale = d3.scale.ordinal()
+              .domain(["HOMICIDE","BURGLARY","ROBBERY"])
+              .range(["#fd3b3b", "#4efd3b","#543bfd" ])
+
+            
+            var map = L.map('mapid').setView([41.827765,-87.652346], 11);
+              L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+                maxZoom: 17
+              }).addTo(map);
+
+            d3.csv("Crimes_Chicago_Sep2017.csv", function (data) {
+
+              var dtgFormat = d3.time.format.utc("%m/%d/%Y %I:%M:%S %p");
+
+              var circle;
+              data.forEach(function(d){
+                d.dtg = dtgFormat.parse(d.Date);
+                d.lat = +d.Latitude;
+                d.long = +d.Longitude;
+                //d.date = dtgFormat.parse(d.Date);
+                d.type = d.PrimaryType;
+
+                var circle;
+
+                if(d.type == "ROBBERY"){
+                  circle = L.circle([d.lat, d.long], 50, {
+                  color: '#543bfd',
+                  weight: 1,
+                  fillColor: '#543bfd',
+                  fillOpacity: 0.5
+                  }).addTo(map);
+                }else if(d.type == "BURGLARY"){
+                  circle = L.circle([d.lat, d.long], 50, {
+                  color: '#4efd3b',
+                  weight: 1,
+                  fillColor: '#4efd3b',
+                  fillOpacity: 0.5
+                  }).addTo(map);
+                }else{
+                  circle = L.circle([d.lat, d.long], 50, {
+                  color: '#fd3b3b',
+                  weight: 1,
+                  fillColor: '#fd3b3b',
+                  fillOpacity: 0.5
+                  }).addTo(map);
+                }
+
+                circle.bindPopup(d.PrimaryType);
+
+              });
+
+              var facts = crossfilter(data);
+
+              var crimeDimension = facts.dimension(function(d){
+                return d.type;
+              });
+
+              var crimeDimensionCount = crimeDimension.group();
+
+              var dateDimension = facts.dimension(function(d){
+                return [d3.time.day(d.dtg), d.type];
+              });
+
+              var dateDimensionCount = dateDimension.group();
+
+
+              crimeTypeChart.width(800)
+                .height(400)
+                //.margins({top: 10, right: 10, bottom: 20, left: 40})
+                //.x(d3.scale.ordinal().domain(["ROBBERY","BURGLARY","HOMICIDE"]))
+                .x(d3.scale.ordinal().domain(["HOMICIDE","BURGLARY","ROBBERY"]))
+                .xUnits(dc.units.ordinal)
+                //.brushOn(false)
+                .dimension(crimeDimension)
+                .group(crimeDimensionCount)
+                //.transitionDuration(500)
+                //.centerBar(true)
+                .on('renderlet', function(crimeTypeChart){
+                  crimeTypeChart.selectAll('.bar:nth-child(2)').style('fill',"#fd3b3b");
+                  crimeTypeChart.selectAll('.bar:nth-child(1)').style('fill',"#4efd3b");
+                  crimeTypeChart.selectAll('.bar:nth-child(3)').style('fill',"#543bfd");
+                })
+                .gap(56);
+                //.elasticY(true)
+                //.colors(colorScale);*/
+
+/*
+                .renderlet(function(chart){
+    var colors =d3.scale.ordinal().domain(["California", "Colorado", "Delaware", "Mississippi", "Oklahoma", "Ontario"])
+        .range(["steelblue", "brown", "red", "green", "yellow", "grey"]);
+    chart.selectAll('rect.bar').each(function(d){
+         d3.select(this).attr("style", "fill: " + colors(d.key)); // use key accessor if you are using a custom accessor
+    });
+});*/
+
+
+
+
+
+              timeChart.width(800)
+                     .height(400)
+                     .dimension(dateDimensionCount)
+                     .group(dateDimensionCount)
+                     .x(d3.time.scale().domain([new Date(2017, 8, 1), new Date(2017, 09, 14)]))
+                     .seriesAccessor(function(d) {return d.key[1];})
+                     .keyAccessor(function(d) {return d.key[0];})
+                     .colors(colorScale);
+ 
+              dc.renderAll();
+
+
+
+
+
+
+            });
+
+            
+
+
+            </script>
+
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+             <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                
+        </body>
+</html>
