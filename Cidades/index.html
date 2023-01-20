@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+    <html>
+    <meta charset="utf-8">
+        <head>
+            <title> Home Page</title>
+             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+            <!-- Optional theme -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+crossorigin=""/>
+            <!-- Make sure you put this AFTER Leaflet's CSS -->
+           <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+           integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+          crossorigin=""></script>
+
+            <!-- Custom styles for this template -->
+            <link  rel="stylesheet" href="css/starter-template.css">
+            <link rel="stylesheet" href="css/dc.css">
+            <link rel="stylesheet" href="css/styles.css">
+            <script src="js/crossfilter.js" charset="utf-8"></script>
+            <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            <script src="js/dc.js" charset="utf-8"></script>
+  
+  <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+            
+            <style type="text/css">
+           
+              
+            </style>
+            
+            
+   
+
+
+        </head>
+        <body>
+
+                  <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/datavis-course/Cidades/index.html">Cidades Brasileiras</a>
+                  </div>
+                  <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                      <li><a href="/datavis-course/Cidades/BR1.html">Visão Geral</a></li>
+                      <li><a href="/datavis-course/Cidades/cidades.html">Gestores Municipais</a></li>
+                      <li><a href="/datavis-course/Cidades/minhacidade.html">Minha cidade</a></li>
+                    </ul>
+                  </div><!--/.nav-collapse -->
+                </div>
+              </nav>
+
+            <div class='container-fluid'>
+
+
+              <br /><br />
+              <h3>MESTRADO E DOUTORADO EM CIÊNCIAS DA COMPUTAÇÃO UNIVERSIDADE FEDERAL DO CEARÁ</h3>
+
+              <h4>DISCIPLINA DE VISUALIZAÇÃO CIENTÍFICA </h4>
+               <br />
+              <h5>Proposta do Projeto Final Título: Visualização dos dados das cidades brasileiras. </h5>
+              <br />
+              <h5>Docente: Profa. Emanuele Santos </h5>
+
+              <br />
+              <h5> Discentes : </h5> 
+              <h5>Alexandre Ramos - alexandre.cajamos@gmail.com </h5> 
+              <h5>Arnaldo Araújo - arnaldoljr@gmail.com  </h5>
+              <h5> Rafael Silva - rafaelsilvaalbuquerque@gmail.com </h5>
+                  <br /><br />            
+              <h1> Cidades Brasileiras </h1>
+          
+             
+            <p>O objetivo deste trabalho consiste em apresentar, de maneira clara e objetiva, diversas informações relacionadas aos municípios brasileiros. Neste sentido, o usuário poderá navegar, de maneira interativa, em gráficos, mapas, tabelas e outras visualizações que esmiuçarão dados dos municípios relativos à diversos indicadores socio-econômicos, às políticas públicas implementadas, dados demográficos, responsabilidade nos gastos, dentre outros. </p>
+
+            <p>Este projeto está divido entre uma <a href="/datavis-course/Cidades/BR1.html">Visão Geral</a> das cidades Brasileiras, apresentando a evolução de indicadores socioeconômicos e suas respectivas distribuições geográficas, a análise interativa dos perfis de <a href="/datavis-course/Cidades/cidades.html">Gestores Municipais</a> e a análise detalhada de uma cidade específica em <a href="/datavis-course/Cidades/cidades.html">Minha cidade</a>. </p>
+            <br />
+            <h4> Foram utilizadas as seguintes bases de Dados: </h4> 
+
+              <p>  IDHM, GINI, Renda per capta, População, Expectativa de Vida, Mortalidade Infantil, Expectativa de Escolaridade 1990, 2000 e 2010 - Disponibilizada em consultas do <a href="http://atlasbrasil.org.br">Atlas Brasil</a>, saiba mais sobre o Atlas em <a href="http://atlasbrasil.org.br/2013/pt/o_atlas/o_atlas_/">aqui </a>.  </p>
+              <p>Dados dos Gestores Municipais com mandatos entre 2013 e 2016 - Disponibilizado para download nas estatísticas de perfins municipais 2013 do IBGE, encontrado <a href="https://downloads.ibge.gov.br/downloads_estatisticas.htm">aqui</a>.
+              </p>
+              <p>Dados dos Gastos municipais e aplicação de Leis - Disponibilizado para download nas estatísticas de perfins municipais do IBGE, encontrado <a href="https://downloads.ibge.gov.br/downloads_estatisticas.htm">aqui</a>.
+              </p>
+
+              <h4> Tecnologias/ferramentas utilizadas: </h4> 
+
+              <p>  D3: <a href="https://d3js.org/">aqui</a></p>
+              <p>  colorbrewer: <a href="http://colorbrewer2.org/">aqui</a></p>
+              <p>  topojson: <a href="https://d3js.org/topojson.v1.min.js">aqui</a></p>
+              <p>  Plot: <a href=" https://plot.ly/">aqui</a></p>
+
+              <p> Dentre outros </p>
+
+
+            <script type="text/javascript">
+         
+            </script>
+
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+             <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                
+        </body>
+</html>
