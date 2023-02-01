@@ -97,8 +97,8 @@
 </div>
 
 <h3>MENU CIDADES </h3>
-<input type="text" name="txtCidade" id="txtCidade">
-<input type="button" value="Buscar" onclick="changeFunc()">
+<select id="selectElementId" onchange="changeFunc()";>
+  <option>Selecione uma Cidade</option>
 </select>
 <div id="myDiv"></div> 
 <div id="ScPlot"></div>
@@ -111,7 +111,7 @@
 
     function changeFunc(){
       var identificador = 0;
-      var select = document.getElementById('txtCidade');
+      var select = document.getElementById('selectElementId');
       var selectValue = selectElementId.options[selectElementId.selectedIndex].value;
       var identificador = selectElementId.selectedIndex
       var id = identificador-1;
